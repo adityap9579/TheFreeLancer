@@ -13,5 +13,7 @@ namespace UserBAL
         public Product AddProduct(Product product);
 
         public IList<Product> GetProductBySearch(string? text);
+        public Product UpdateProduct(Product product);
+        public bool DeleteProduct(int Id);
     }
 }

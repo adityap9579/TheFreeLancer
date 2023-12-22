@@ -25,5 +25,13 @@ namespace UserBAL
         {
             return _productdal.GetProductBySearch(text);
         }
+        public Product UpdateProduct(Product product)
+        {
+            return _productdal.UpdateProduct(product);
+        }
+        public bool DeleteProduct(int Id)
+        {
+            return _productdal.DeleteProduct(Id);
+        }
     }
 }

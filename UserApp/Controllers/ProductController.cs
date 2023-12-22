@@ -25,5 +25,17 @@ namespace UserApp.Controllers
         {
             return _productService.GetProductBySearch(text);
         }
+
+        [HttpPut("UpdateProduct{Id}")]
+        public Product UpdateProduct([FromRoute] int Id,[FromBody] Product product)
+        {
+            product.Id=Id;
+            return _productService.UpdateProduct(product);
+        }
+        [HttpDelete("DeleteById")]
+        public bool DeleteProduct(int Id)
+        {
+            return _productService.DeleteProduct(Id);
+        }
     }
 }

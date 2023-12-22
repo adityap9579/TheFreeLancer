@@ -13,6 +13,7 @@ namespace UserDAL
 
         IList<Product> GetProductBySearch(string text);
 
-
+        Product UpdateProduct(Product product);
+        bool DeleteProduct(int Id);
     }
 }

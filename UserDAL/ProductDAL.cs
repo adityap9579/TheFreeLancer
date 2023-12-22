@@ -20,7 +20,7 @@ namespace UserDAL
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                SqlCommand cmd = new SqlCommand("sp_AddProduct", con);
+                SqlCommand cmd = new SqlCommand("sp_UpsertProduct", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@tempId", product.Id);
                 cmd.Parameters.AddWithValue("@Name", product.Name);
@@ -64,7 +64,7 @@ namespace UserDAL
                 {
                     var product = new Product()
                     {
-                        Id = rdr.GetInt32("id"),
+                        Id = rdr.GetInt32("productId"),
                         Name = rdr.GetString("name"),
                         Domain = rdr.GetString("domain"),
                         Price = (float)rdr.GetDouble("price")
@@ -76,7 +76,51 @@ namespace UserDAL
             }     
           
         }
-        
+        public Product UpdateProduct(Product product)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_UpsertProduct", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@tempId", product.Id);
+                cmd.Parameters.AddWithValue("@Name", product.Name);
+                cmd.Parameters.AddWithValue("@Domain", product.Domain);
+                cmd.Parameters.AddWithValue("@Price", product.Price);
+
+                cmd.Parameters.AddWithValue("@Id", product.Id);
+
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+               
+                if (i > 0)
+                {
+                    Console.WriteLine("Success");
+                }
+                else
+                {
+                    Console.WriteLine("Fail");
+                }
+            }
+            return product;
+        }
+
+        public bool DeleteProduct(int Id)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("update Product set IsActive=0 where ProductId=@Id", con);                
+                cmd.Parameters.AddWithValue("@Id", Id);
+               
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                if (i>0)
+                    return true;
+                 
+                return false;
+
+            }            
+        }
+       
     }
 
 }
